@@ -1,6 +1,6 @@
 import pyqrcode
 import pyzbar 
-from PIL import Image, ImageDraw
+import PIL
 import png
 
 def text_to_qrcode(text, module_color, background, file_format='eps', scale=6):
@@ -19,32 +19,12 @@ def decode_qrcode(file):
 
 
 def color_qrcode(file, background):
-    image = Image.open(file)  # Открываем изображение.
+    image = Image.open(file)  
     image = image.convert("RGB")
-    draw = ImageDraw.Draw(image)  # Создаем инструмент для рисования.
-    width = image.size[0]  # Определяем ширину.
-    height = image.size[1]  # Определяем высоту.
-    pix = image.load()  # Выгружаем значения пикселей.
-    for i in range(int(width / 2)):
-        for j in range(int(height / 2)):
-            a, b, c = pix[i, j]
-            if (a, b, c) == background:
-                draw.point((i, j), (255, 20, 147))
-
-    for i in range(int(width / 2), width):
-        for j in range(int(height / 2), height):
-            a, b, c = pix[i, j]
-            if (a, b, c) == background:
-                draw.point((i, j), (0, 191, 255))
-
-    for i in range(int(width / 2)):
-        for j in range(int(height / 2), height):
-            a, b, c = pix[i, j]
-            if (a, b, c) == background:
-                draw.point((i, j), (0, 255, 127))
-    image.save("multicolored_qrcode.png", "PNG")
-    del draw
-
+    draw = ImageDraw.Draw(image)  
+    width = image.size[0] 
+    height = image.size[1]  
+    pix = image.load()  
 
 if __name__ == "__main__":
     string = ""
@@ -57,5 +37,3 @@ if __name__ == "__main__":
     print('Расшифровка:', decode_qrcode("qrcode.png"))
 
     color_qrcode("qrcode.png", (255, 130, 171))
-
-    print('Расшифровка после перекрашивания:', decode_qrcode("multicolored_qrcode.png"))
