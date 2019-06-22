@@ -13,7 +13,7 @@ def sq_error(_x, _y, f_x=None):
 
 X, Y = [], []
 
-with open("web_traffic.tsv") as tsvfile:
+with open("coast.tsv") as tsvfile:
     tsv_reader = csv.reader(tsvfile, delimiter="\t")
     for line in tsv_reader:
         if line[1] != 'nan':
